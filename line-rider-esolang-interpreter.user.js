@@ -12,14 +12,13 @@
 // @match        http://localhost:*/*
 // @match        https://*.surge.sh/*
 
-// @downloadURL  https://github.com/Malizma333/linerider-esolang/raw/master/line-rider-esolang.user.js
-// @updateURL    https://github.com/Malizma333/linerider-esolang/raw/master/line-rider-esolang.user.js
+// @downloadURL  https://github.com/Malizma333/linerider-esolang/raw/main/line-rider-esolang-interpreter.user.js
+// @updateURL    https://github.com/Malizma333/linerider-esolang/raw/main/line-rider-esolang-interpreter.user.js
 // @homepageURL  https://github.com/Malizma333/linerider-esolang
 // @supportURL   https://github.com/Malizma333/linerider-esolang/issues
 // @grant        none
 
 // ==/UserScript==
-
 
 function main () {
   console.log("Test");
