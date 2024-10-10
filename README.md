@@ -1,10 +1,9 @@
 TODO:
 - Create userscript
 - Create example "programs" (tracks)
-- Example program videos running
-- Credits/Notes ending section?
-- Get instruction set reviewed
-- Get writing style reviewed
+- Create videos of example programs
+- Get writing reviewed
+- Get instruction set proven
 - Publish to github (and possibly portfolio blog?)
 
 # The Line Rider Esolang
@@ -109,11 +108,10 @@ I've written a userscript for the web version of Line Rider that acts as the int
 2) Install [the userscript](https://github.com/Malizma333/linerider-esolang/raw/main/line-rider-esolang-interpreter.user.js) to run the interpreter.
 3) Make a track at [linerider.com](https://www.linerider.com/) and watch your program run from the developer console!
 
-## Credits and footnotes
-
+## Footnotes
 
 ¹ *This internal multiplier value takes the range of real numbers between -256 to 255, and was only a recent addition to more modern versions of Line Rider.*
 
-² *While not all of these tidbits are crucial to understanding the rest of this article, they are still an interesting example that intricate systems come together to form seemingly regular behaviors.*
+² *While not all of these tidbits are crucial to understanding the majority of the article, they are still an interesting example of seemingly regular systems.*
 
 ³ *These are meta instructions that define when to start and stop the interpreter. They do not affect the actual program functionality itself.*
