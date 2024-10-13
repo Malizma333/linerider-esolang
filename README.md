@@ -1,5 +1,4 @@
 TODO:
-- Create userscript
 - Create example "programs" (tracks)
 - Create videos of example programs
 - Get writing reviewed
@@ -68,9 +67,9 @@ We define the instruction set from the 8 possible lines as follows.
   </tr>
   <tr>
     <td>180°</td>
-    <td>Clear the input buffer if it's not already empty</td>
-    <td><b>Input</b> ASCII into the next M registers</td>
-    <td><b>Output</b> the value of the next M registers</td>
+    <td>Clear the input buffer</td>
+    <td><b>Input</b> into the next M registers</td>
+    <td><b>Output</b> the next M registers</td>
   </tr>
   <tr>
     <td>270°</td>
@@ -90,21 +89,25 @@ In practice, these instructions have no functionality without an interpreter run
 
 This interpreter will keep track of the internal state of the program, which is a series of registers that can take values in the range of unsigned 8 bit integers. At the start, these registers are initialized with a value of zero. It also keeps track of an input buffer of unused characters.
 
-The input buffer is used to prevent input overflow and clamp to the requested amount of input. The first instance that input gets requested, only the first M characters fill in the registers, and the rest get stored into the input buffer. On the next request, the interpreter checks to see if there are any characters remaining in the input buffer, uses those up, then asks for more input if it is needed.
+The input buffer is used to prevent input overflow and clamp to the requested amount of input. The first instance that input gets requested, only the first M characters fill in the registers, and the rest get stored into the input buffer. On the next request, the interpreter checks to see if there are any characters remaining in the input buffer, uses those up, then asks for more input if it is needed. If there are not enough characters to fill M registers, then the remaining registers get set to 0.
 
 The input accepts UTF8 characters and converts them to their corresponding character codes, and the output casts the values of the outputted registers back to UTF8 characters and outputs to the console.
 
 The index on the timeline is used as a sort of program counter. The design of Line Rider maintains that tracks run as linear experiences without jumping around the timeline. The design of the interpreter bends this rule to allow for program jumps. If the program jumps out of bounds (say, to a negative index), the program halts.
 
+In the case of multiple collisions on a particular frame, only the instruction with the earliest order of operation is chosen to run, and all other instructions are ignored. The order of operations is determined by line type and angle as follows (from earliest to latest): 0° blue, 90° blue, 180° blue, 270° blue, 0° red, 90° red, 180° red, 270° red.
+
+For best results, the simulation should be ran at physics framerate without any smooth interpolation active. This ensures that physics frames match that playback framerate.
+
 ## Some example programs
 
-With the definitions and logistics out of the way, we can now "write" some functional programs using these instructions. Below are some examples of tracks that run programs commonly used for examples.
+With the definitions and logistics out of the way, we can now "write" some functional programs using these instructions. Below are some examples of track programs.
 
-[This track]() gets interpreted into a program that prints "Hello, {name}" where name is an input string.
+[This track]() prints "Hello, {name}" where name is an input string.
 
 *(Video here)*
 
-[This track]() gets interpreted into a program that calculates the nth fibonacci number, where n is the input.
+[This track]() prints the first 20 fibonacci numbers.
 
 *(Video here)*
 
@@ -118,6 +121,6 @@ I've written a userscript for the web version of Line Rider that acts as the int
 
 ## Footnotes
 
-¹ *This internal multiplier value takes the range of real numbers between -256 to 255 and is a relatively recent addition to modern versions of Line Rider.*
+¹ *This internal multiplier value takes the range of real numbers between -255 to 255 and is a relatively recent addition to modern versions of Line Rider.*
 
 ² *While not all of these tidbits are crucial to understanding the majority of the article, they are still an interesting example of complex behavior underlying seemingly simple processes.*
