@@ -3,7 +3,7 @@
 // @name         Line Rider Esolang Interpreter
 // @namespace    https://www.linerider.com/
 // @author       Malizma
-// @description  A Line Rider esolang real-time interpreter for linerider.com.
+// @description  
 // @version      0.1.0
 // @icon         https://www.linerider.com/favicon.ico
 
@@ -21,7 +21,40 @@
 // ==/UserScript==
 
 function main () {
-  console.log("Test");
+  console.info("[Esolang Interpreter] Running");
+
+  const instructArray = [];
+  const { store } = window;
+  const hitLines = new Set();
+
+  store.subscribe(() => {
+    const state = store.getState();
+
+    if (!state.player.running) {
+      if (hitLines.size > 0) {
+        hitLines = new Set();
+      }
+
+      return;
+    }
+
+    const track = state.simulator.committedEngine;
+    const frameData = track.getFrame(Math.floor(state.player.index));
+
+    if(frameData.involvedLineIds.length === 0) {
+      return;
+    }
+
+    const collidingLines = track.linesList.filter(
+      line => !hitLines.has(line.id) && frameData.involvedLineIds.includes(line.id)
+    )
+    hitLines.union(new Set(collidingLines.map(line => line.id)))
+    const instructions = collidingLines.map(
+      line => (Math.atan2(line.y2 - line.y1, line.x2 - line.x1) * 2 / Math.PI + 2 * line.flipped + 4) % 4 + 4 * line.type
+    ).filter(instruction => instruction === Math.round(instruction));
+
+    instructArray.push(...instructions.toArray());
+  });
 }
 
 if (window.store) {

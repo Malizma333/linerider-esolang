@@ -41,7 +41,7 @@ A subgenre of quirk dubbed "XY quirk" consists of tricks performed with strictly
 
 The following image shows each permutation of line that can be used under the restrictions of XY quirk. Each of these permutations will be mapped to a corresponding instruction. Red lines will be given two instructions that depend on the sign of the red line's multiplier, for reasons given later.
 
-![An image with four rotations listed at the top. The four rotations listed are 0 degrees, 90 degrees, 180 degrees, and 270 degrees. Below each rotation is a blue line with a gray box drawn along the line. For 0 degrees, the line is drawn horizontally and the gray box is below the line. For 90 degrees, the line is drawn vertically and the gray box is drawn to the right of the line. For 180 degrees, the line is drawn horizontally and the gray box is drawn above the line. For 270 degrees, the line is drawn vertically and the gray box is drawn to the left of the line. Below each blue line is a corresponding red line with a gray box drawn in the same orientation.](assets\line_rotation_visual.png "Line Rotations")
+![An image with four rotations listed at the top. The four rotations listed are 0 degrees, 90 degrees, 180 degrees, and 270 degrees. Below each rotation is a blue line with a gray box drawn along the line. For 0 degrees, the line is drawn horizontally and the gray box is below the line. For 90 degrees, the line is drawn vertically and the gray box is drawn to the left of the line. For 180 degrees, the line is drawn horizontally and the gray box is drawn above the line. For 270 degrees, the line is drawn vertically and the gray box is drawn to the right of the line. Below each blue line is a corresponding red line with a gray box drawn in the same orientation.](assets\line_rotation_visual.png "Line Rotations")
 
 ## Defining the instruction set
 
@@ -56,7 +56,7 @@ We define the instruction set from the 8 possible lines as follows.
   </tr>
   <tr>
     <td>0°</td>
-    <td>Clear the instruction buffer and start interpretation³</td>
+    <td>Move to register 0</td>
     <td>Move to the <b>next</b> Mth register</td>
     <td>Move to the <b>previous</b> Mth register</td>
   </tr>
@@ -68,15 +68,15 @@ We define the instruction set from the 8 possible lines as follows.
   </tr>
   <tr>
     <td>180°</td>
-    <td>Halt interpretation and evaluate the instruction buffer³</td>
-    <td>Take <b>input</b> into the next M registers, overriding them</td>
+    <td>Clear the input buffer if it's not already empty</td>
+    <td><b>Input</b> ASCII into the next M registers</td>
     <td><b>Output</b> the value of the next M registers</td>
   </tr>
   <tr>
     <td>270°</td>
-    <td>If the value at the current address is zero, jump to the start of the program, else continue execution</td>
-    <td>If the value at the current address is zero, relative jump M instructions <b>forward</b>, else continue execution</td>
-    <td>If the value at the current address is zero, relative jump M instructions <b>backward</b>, else continue execution</td>
+    <td>Stop the program</td>
+    <td>If the value at the current address is zero, relative jump M frames <b>forward</b>, else continue playing</td>
+    <td>If the value at the current address is zero, relative jump M frames <b>backward</b>, else continue playing</td>
   </tr>
 </table>
 
@@ -84,15 +84,23 @@ The instructions corresponding to red lines depend on the internal multiplier, M
 
 Blue line instructions have completely different functionality from their red line counterparts. This choice was made based on the fact that blue lines are, in essence, red lines with 0 multiplier, a value that would have no effect on any of the red line defined instructions.
 
-While this table is useful for defining the instruction set, we have not yet specified how it should be interpreted into a runnable program. To actually apply these instructions, an interpreter is introduced that checks for rider-line collisions while the track is running. The interpreter's job is to figure out which permutation of line is being hit on the current frame, translate that permutation into its corresponding instruction, and append the instruction to a buffer that keeps track of all of the instructions found so far.
+## Creating an interpreter
 
-The interpreter only begins adding to the buffer once the line corresponding to the start instruction is hit. Once the line corresponding to the halt instruction is hit, the interpreter stops adding instructions to the buffer, then evaluates the program in the buffer sequentially.
+In practice, these instructions have no functionality without an interpreter running in the background to determine which line corresponds to which instruction. For the sake of ease, this interpreter has been written for the web version of Line Rider, which has extensive mod support available and offers all of the capabilities needed to achieve this sort of functionality.
+
+This interpreter will keep track of the internal state of the program, which is a series of registers that can take values in the range of unsigned 8 bit integers. At the start, these registers are initialized with a value of zero. It also keeps track of an input buffer of unused characters.
+
+The input buffer is used to prevent input overflow and clamp to the requested amount of input. The first instance that input gets requested, only the first M characters fill in the registers, and the rest get stored into the input buffer. On the next request, the interpreter checks to see if there are any characters remaining in the input buffer, uses those up, then asks for more input if it is needed.
+
+The input accepts UTF8 characters and converts them to their corresponding character codes, and the output casts the values of the outputted registers back to UTF8 characters and outputs to the console.
+
+The index on the timeline is used as a sort of program counter. The design of Line Rider maintains that tracks run as linear experiences without jumping around the timeline. The design of the interpreter bends this rule to allow for program jumps. If the program jumps out of bounds (say, to a negative index), the program halts.
 
 ## Some example programs
 
 With the definitions and logistics out of the way, we can now "write" some functional programs using these instructions. Below are some examples of tracks that run programs commonly used for examples.
 
-[This track]() gets interpreted into a program that prints hello world.
+[This track]() gets interpreted into a program that prints "Hello, {name}" where name is an input string.
 
 *(Video here)*
 
@@ -110,8 +118,6 @@ I've written a userscript for the web version of Line Rider that acts as the int
 
 ## Footnotes
 
-¹ *This internal multiplier value takes the range of real numbers between -256 to 255, and was only a recent addition to more modern versions of Line Rider.*
+¹ *This internal multiplier value takes the range of real numbers between -256 to 255 and is a relatively recent addition to modern versions of Line Rider.*
 
-² *While not all of these tidbits are crucial to understanding the majority of the article, they are still an interesting example of seemingly regular systems.*
-
-³ *These are meta instructions that define when to start and stop the interpreter. They do not affect the actual program functionality itself.*
+² *While not all of these tidbits are crucial to understanding the majority of the article, they are still an interesting example of complex behavior underlying seemingly simple processes.*
