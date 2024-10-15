@@ -1,9 +1,3 @@
-TODO:
-- Create example "programs" (tracks)
-- Create videos of example programs
-- Get writing reviewed
-- Publish to github (and possibly portfolio blog?)
-
 # The Line Rider Esolang
 
 ## What the heck is Line Rider?
@@ -106,13 +100,73 @@ With the definitions and logistics out of the way, we can now "write" some funct
 
 ![Video demo of hello program](./assets/hello_program_demo.gif)
 
-[This track]() prints the first 10 fibonacci numbers.
+Here's what the pseudocode looks like.
+```
+Add (12) * 6                  // H
+Next register
+Add (12) * 8 + 5              // e
+Next register
+Add (12) * 9                  // l
+Next register
+Add (12) * 9                  // l
+Next register
+Add 26 + 15 + 7 + 19 + 36 + 8 // o
+Next register
+Add 19 + 13                   // [Space]
+Move to register 0
+Next register x6
+Take input into next 10 registers
+Move to register 0
+Output next 20 registers
+Halt
+```
 
-![Video demo of fibonacci program]()
+[This track](./assets/fib_program.track.json) prints the first 6 fibonacci numbers. This demo only does the first 6 because printing more than 1 digit numbers requires great effort.
+
+![Video demo of fibonacci program](./assets/fib_program_demo.gif)
+
+Here's what the pseudocode looks like.
+```
+Add 6
+Next register
+Add 1
+Next register
+Add 1
+Next register
+Previous register x2
+Next register x2     <- Main
+Add 48
+Output next 1 register
+Sub 48
+Previous register
+Next register        <- Loop1
+Add 1
+Next register
+Add 1
+Previous register x2
+Sub 1
+Jump to Loop1 if not 0
+Next register
+Previous register    <- Loop2
+Add 1
+Next register
+Sub 1
+Jump to Loop2 if not 0
+Next register
+Previous register    <- Loop3
+Add 1
+Next 1
+Sub 1
+Jump to Loop3 if not 0
+Previous register x3
+Sub 1
+Jump to Main if not 0
+Halt
+```
 
 ## Creating your own program
 
-I've written a userscript for the web version of Line Rider that acts as the interpreter by detecting physics collisions and translating them into the appropriate instructions. Below are some steps to setup this userscript for testing your own Line Rider Esolang programs.
+I've written a userscript that acts as the interpreter by detecting physics collisions and translating them into the appropriate instructions. Below are some steps to setup this userscript for testing your own Line Rider Esolang programs.
 
 For debugging purposes, the global function `window.getProgState` is available to see the internal state of the program.
 
