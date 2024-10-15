@@ -20,6 +20,8 @@
 
 // ==/UserScript==
 
+// TODO: Fix asynchronous cases
+
 function main () {
   console.info('[Esolang Interpreter] Running')
 
@@ -56,11 +58,7 @@ function main () {
     let M = 0
 
     if (line.type === 1) {
-      M = Math.sign(line.multiplier) * Math.floor(Math.abs(line.multiplier))
-
-      if (!M) {
-        M = line.flipped ? -1 : 1
-      }
+      M = Math.sign(line.multiplier) * Math.floor(Math.abs(line.multiplier)) || 1
     }
 
     return [instruction, M]

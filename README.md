@@ -121,7 +121,7 @@ Output next 20 registers
 Halt
 ```
 
-[This track](./assets/fib_program.track.json) prints the first 6 fibonacci numbers. This demo only does the first 6 because printing more than 1 digit numbers requires great effort.
+[This track](./assets/fib_program.track.json) prints the first 6 fibonacci numbers. This demo only does the first 6 because printing more than 1 digit numbers requires extra calculations.
 
 ![Video demo of fibonacci program](./assets/fib_program_demo.gif)
 
@@ -132,7 +132,6 @@ Next register
 Add 1
 Next register
 Add 1
-Next register
 Previous register x2
 Next register x2     <- Main
 Add 48
@@ -155,7 +154,7 @@ Jump to Loop2 if not 0
 Next register
 Previous register    <- Loop3
 Add 1
-Next 1
+Next register
 Sub 1
 Jump to Loop3 if not 0
 Previous register x3
