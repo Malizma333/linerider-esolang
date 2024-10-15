@@ -69,7 +69,7 @@ function main () {
   store.subscribe(() => {
     const state = store.getState()
 
-    if (!state.player.running && state.player.index === 0) {
+    if (state.player.index === 0) {
       if (lastHitIds.size > 0) {
         lastHitIds.clear()
       }
@@ -77,7 +77,9 @@ function main () {
       progState.registerPointer = 0
       progState.registers = new Uint8Array(ARRAY_SIZE)
       progState.inputBuffer = []
+    }
 
+    if (!state.player.running) {
       return
     }
 
@@ -120,7 +122,7 @@ function main () {
         break
       case 3:
         console.info('[Esolang Interpreter] Program halted')
-        store.dispatch({ type: "TRIGGER_COMMAND", payload: "triggers.stop", meta: { ignorable: true } })
+        store.dispatch({ type: 'SET_PLAYER_RUNNING', payload: false })
         break
       case 4:
         progState.registerPointer = (progState.registerPointer + M) % ARRAY_SIZE
@@ -131,36 +133,42 @@ function main () {
       case 6:
         if (M > 0) {
           store.dispatch({ type: 'SET_PLAYER_RUNNING', payload: false })
-          progState.inputBuffer.push(...window.prompt().split(''))
+          const response = window.prompt() || ''
+          progState.inputBuffer.push(...response.split(''))
           const input = progState.inputBuffer.splice(0, M)
           let pointer = progState.registerPointer
           for (let i = 0; i < M; i++) {
             if (i >= input.length) {
               progState.registers[pointer] = 0
+              continue
             }
 
-            progState.registers[pointer] = input.charCodeAt(i)
+            progState.registers[pointer] = input[i].charCodeAt(0)
             pointer = (pointer + 1) % ARRAY_SIZE
           }
           store.dispatch({ type: 'SET_PLAYER_RUNNING', payload: true })
         } else {
           const output = []
           for (let i = progState.registerPointer; i < progState.registerPointer - M; i++) {
-            output.push(String.fromCharCode(progState.registers[progState.registerPointer]))
+            output.push(String.fromCharCode(progState.registers[i]))
           }
           console.log(output.join(''))
         }
         break
       case 7:
-        if (state.player.index + M < 0) {
-          store.dispatch({ type: "TRIGGER_COMMAND", payload: "triggers.stop", meta: { ignorable: true } })
-          console.error('[Esolang Interpreter] Attempted jump to negative index')
-        } else {
-          store.dispatch({ type: 'SET_PLAYER_INDEX', payload: state.player.index + M })
+        if (progState.registers[progState.registerPointer] !== 0) {
+          if (state.player.index + M < 0) {
+            store.dispatch({ type: 'SET_PLAYER_RUNNING', payload: false })
+            console.error('[Esolang Interpreter] Attempted jump to negative index')
+          } else {
+            store.dispatch({ type: 'SET_PLAYER_INDEX', payload: state.player.index + M })
+          }
         }
         break
     }
   })
+
+  window.getProgState = () => progState
 }
 
 if (window.store) {

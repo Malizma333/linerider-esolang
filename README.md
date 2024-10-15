@@ -2,7 +2,6 @@ TODO:
 - Create example "programs" (tracks)
 - Create videos of example programs
 - Get writing reviewed
-- Get instruction set proven
 - Publish to github (and possibly portfolio blog?)
 
 # The Line Rider Esolang
@@ -74,8 +73,8 @@ We define the instruction set from the 8 possible lines as follows.
   <tr>
     <td>270°</td>
     <td>Stop the program</td>
-    <td>If the value at the current address is zero, relative jump M frames <b>forward</b>, else continue playing</td>
-    <td>If the value at the current address is zero, relative jump M frames <b>backward</b>, else continue playing</td>
+    <td>If the value at the current address is not zero, relative jump M frames <b>forward</b>, else continue playing</td>
+    <td>If the value at the current address is not zero, relative jump M frames <b>backward</b>, else continue playing</td>
   </tr>
 </table>
 
@@ -103,17 +102,19 @@ For best results, the simulation should be ran at physics framerate without any 
 
 With the definitions and logistics out of the way, we can now "write" some functional programs using these instructions. Below are some examples of track programs.
 
-[This track]() prints "Hello, {name}" where name is an input string.
+[This track](./assets/hello_program.track.json) prints "Hello {name}" where name is an input string.
 
-*(Video here)*
+![Video demo of hello program](./assets/hello_program_demo.gif)
 
-[This track]() prints the first 20 fibonacci numbers.
+[This track]() prints the first 10 fibonacci numbers.
 
-*(Video here)*
+![Video demo of fibonacci program]()
 
 ## Creating your own program
 
 I've written a userscript for the web version of Line Rider that acts as the interpreter by detecting physics collisions and translating them into the appropriate instructions. Below are some steps to setup this userscript for testing your own Line Rider Esolang programs.
+
+For debugging purposes, the global function `window.getProgState` is available to see the internal state of the program.
 
 1) Install a browser extension that supports userscript execution, such as [Tampermonkey](https://www.tampermonkey.net/).
 2) Install [the userscript](https://github.com/Malizma333/linerider-esolang/raw/main/line-rider-esolang-interpreter.user.js) to run the interpreter.
