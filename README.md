@@ -171,7 +171,8 @@ For debugging purposes, the global function `window.getProgState` is available t
 
 1) Install a browser extension that supports userscript execution, such as [Tampermonkey](https://www.tampermonkey.net/).
 2) Install [the userscript](https://github.com/Malizma333/linerider-esolang/raw/main/line-rider-esolang-interpreter.user.js) to run the interpreter.
-3) Make a track at [linerider.com](https://www.linerider.com/) and watch your program run from the developer console!
+3) Install the [Mod API](https://github.com/Malizma333/linerider-userscript-mods/raw/refs/heads/master/mods/line-rider-improved-api.user.js) and [Line Metadata Editor](https://github.com/ethanjli/linerider-userscript-mods/raw/refs/heads/master/selection-metadata.user.js), which makes editing red line multipliers much easier.
+4) Make a track at [linerider.com](https://www.linerider.com/) and watch your program run from the developer console.
 
 ## Footnotes
 
