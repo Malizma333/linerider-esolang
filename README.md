@@ -33,7 +33,7 @@ A subgenre of quirk dubbed "XY quirk" consists of tricks performed with strictly
 
 The following image shows each permutation of a line that can be used under the restrictions of XY quirk. Each of these permutations will be mapped to a corresponding instruction. Red lines will be given two instructions that depend on the sign of the red line's multiplier, for reasons given later.
 
-![An image with four rotations listed at the top. The four rotations listed are 0 degrees, 90 degrees, 180 degrees, and 270 degrees. Below each rotation is a blue line with a gray box drawn along the line. For 0 degrees, the line is drawn horizontally and the gray box is below the line. For 90 degrees, the line is drawn vertically and the gray box is drawn to the left of the line. For 180 degrees, the line is drawn horizontally and the gray box is drawn above the line. For 270 degrees, the line is drawn vertically and the gray box is drawn to the right of the line. Below each blue line is a corresponding red line with a gray box drawn in the same orientation.](assets\line_rotation_visual.png "Line Rotations")
+![An image with four rotations listed at the top. The four rotations listed are 0 degrees, 90 degrees, 180 degrees, and 270 degrees. Below each rotation is a blue line with a gray box drawn along the line. For 0 degrees, the line is drawn horizontally and the gray box is below the line. For 90 degrees, the line is drawn vertically and the gray box is drawn to the left of the line. For 180 degrees, the line is drawn horizontally and the gray box is drawn above the line. For 270 degrees, the line is drawn vertically and the gray box is drawn to the right of the line. Below each blue line is a corresponding red line with a gray box drawn in the same orientation.](./assets/line_rotation_visual.png "Line Rotations")
 
 ## Defining the instruction set
 
@@ -98,7 +98,7 @@ With the definitions and logistics out of the way, we can now "write" some funct
 
 [This track](./assets/hello_program.track.json) prints "Hello {name}" where name is an input string.
 
-![Video demo of hello program](./assets/hello_program_demo.gif)
+![Video demo of hello program](./assets/hello_program_demo.gif "Hello Program Demo")
 
 Here's what the pseudocode looks like.
 ```
@@ -123,7 +123,7 @@ Halt
 
 [This track](./assets/fib_program.track.json) prints the first 6 Fibonacci numbers. This demo only does the first 6 because printing more than 1 digit numbers requires extra calculations.
 
-![Video demo of Fibonacci program](./assets/fib_program_demo.gif)
+![Video demo of Fibonacci program](./assets/fib_program_demo.gif "Fibonacci Program Demo")
 
 Here's what the pseudocode looks like.
 ```
