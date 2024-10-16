@@ -167,12 +167,12 @@ Halt
 
 I've written a userscript that acts as the interpreter by detecting physics collisions and translating them into the appropriate instructions. Below are some steps to set up this userscript for testing your own Line Rider Esolang programs.
 
-For debugging purposes, the global function `window.getProgState` is available to see the internal state of the program.
-
 1) Install a browser extension that supports userscript execution, such as [Tampermonkey](https://www.tampermonkey.net/).
-2) Install [the userscript](https://github.com/Malizma333/linerider-esolang/raw/main/line-rider-esolang-interpreter.user.js) to run the interpreter.
+2) Install the [interpreter userscript](https://github.com/Malizma333/linerider-esolang/raw/main/line-rider-esolang-interpreter.user.js) to run the interpreter.
 3) Install the [Mod API](https://github.com/Malizma333/linerider-userscript-mods/raw/refs/heads/master/mods/line-rider-improved-api.user.js) and [Line Metadata Editor](https://github.com/ethanjli/linerider-userscript-mods/raw/refs/heads/master/selection-metadata.user.js), which makes editing red line multipliers much easier.
 4) Make a track at [linerider.com](https://www.linerider.com/) and watch your program run from the developer console.
+
+For debugging purposes, the global function `window.getProgState` is available to see the internal state of the program.
 
 ## Footnotes
 
