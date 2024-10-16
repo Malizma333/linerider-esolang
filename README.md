@@ -86,7 +86,7 @@ The input buffer is used to prevent input overflow and clamp to the requested am
 
 The input accepts UTF8 characters and converts them to their corresponding character codes, and the output casts the values of the outputted registers back to UTF8 characters and outputs to the console.
 
-The index on the timeline is used as a sort of program counter. The design of Line Rider maintains that tracks run as linear experiences without jumping around the timeline. The design of the interpreter bends this rule to allow for program jumps. If the program jumps out of bounds (say, to a negative index), the program halts.
+The index on the timeline is used as a sort of program counter.³ The design of Line Rider maintains that tracks run as linear experiences without jumping around the timeline. The design of the interpreter bends this rule to allow for program jumps. If the program jumps out of bounds (say, to a negative index), the program halts.
 
 In the case of multiple collisions on a particular frame, only the instruction with the earliest order of operation is chosen to run, and all other instructions are ignored. The order of operations is determined by line type and angle as follows (from earliest to latest): 0° blue, 90° blue, 180° blue, 270° blue, 0° red, 90° red, 180° red, 270° red.
 
@@ -178,3 +178,5 @@ For debugging purposes, the global function `window.getProgState` is available t
 ¹ *This internal multiplier value takes the range of real numbers between -255 to 255 and is a relatively recent addition to modern versions of Line Rider.*
 
 ² *While not all of these tidbits are crucial to understanding the majority of the article, they are still an interesting example of complex behavior underlying seemingly simple processes.*
+
+³ *Because of this, the implementation uses async methods to set the timeline to the proper index during jumps. This causes occasional errors when jumping too late and evaluating frames that shouldn't be evaluated. This can be mitigated by spacing out instructions.*

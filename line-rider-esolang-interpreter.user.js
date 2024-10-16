@@ -20,8 +20,6 @@
 
 // ==/UserScript==
 
-// TODO: Fix asynchronous cases
-
 function main () {
   console.info('[Esolang Interpreter] Running')
 
